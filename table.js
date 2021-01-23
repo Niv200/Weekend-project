@@ -1,8 +1,3 @@
-
-    // const input = document.getElementById("input").value;
-    // const output = document.getElementById("output");
-    // let out = "";
-    // output.innerText = out;
 let table = [
     { //Headers
         startedAt: "Started At",
@@ -51,72 +46,66 @@ let table = [
     },
     { //5
         startedAt: new Date("2021-01-20:13:00"),
-        finishedAt: new Date("2021-01-20:19:00"),
-        totalTime: 0,
-        tasksGiven: 10,
-        tasksFinished: 7,
-        tasksFinishedPercent: 0,
+        finishedAt: new Date("2021-01-20:14:00"),
+        totalTime: 0,//1
+        tasksGiven: 51,
+        tasksFinished: 3,
+        tasksFinishedPercent: 0,//6
         topic: 'Objects'
     },
     { //6
-        startedAt: new Date("2021-01-20:13:00"),
-        finishedAt: new Date("2021-01-20:19:00"),
-        totalTime: 0,
-        tasksGiven: 10,
-        tasksFinished: 7,
-        tasksFinishedPercent: 0,
+        startedAt: new Date("2021-01-20:10:00"),
+        finishedAt: new Date("2021-01-20:22:00"),
+        totalTime: 0, //12
+        tasksGiven: 15,
+        tasksFinished: 5,
+        tasksFinishedPercent: 0, //33
         topic: 'VSCode'
     },
     { //7
         startedAt: new Date("2021-01-20:13:00"),
-        finishedAt: new Date("2021-01-20:19:00"),
-        totalTime: 0,
-        tasksGiven: 10,
-        tasksFinished: 7,
-        tasksFinishedPercent: 0,
+        finishedAt: new Date("2021-01-20:16:00"),
+        totalTime: 0, //3
+        tasksGiven: 21,
+        tasksFinished: 18,
+        tasksFinishedPercent: 0, //86
         topic: 'Function'
     },
     { //8
         startedAt: new Date("2021-01-20:13:00"),
-        finishedAt: new Date("2021-01-20:19:00"),
-        totalTime: 0,
-        tasksGiven: 10,
-        tasksFinished: 7,
-        tasksFinishedPercent: 0,
+        finishedAt: new Date("2021-01-20:14:00"),
+        totalTime: 0, //1
+        tasksGiven: 33,
+        tasksFinished: 28,
+        tasksFinishedPercent: 0, //85
         topic: 'Loops'
     },
     { //9
         startedAt: new Date("2021-01-20:13:00"),
-        finishedAt: new Date("2021-01-20:19:00"),
-        totalTime: 0,
-        tasksGiven: 10,
-        tasksFinished: 7,
-        tasksFinishedPercent: 0,
+        finishedAt: new Date("2021-01-20:18:00"),
+        totalTime: 0, //5
+        tasksGiven: 50,
+        tasksFinished: 50,
+        tasksFinishedPercent: 0, //100
         topic: 'Node'
     },
     { //10
         startedAt: new Date("2021-01-20:13:00"),
-        finishedAt: new Date("2021-01-20:19:00"),
-        totalTime: 0,
-        tasksGiven: 10,
-        tasksFinished: 7,
-        tasksFinishedPercent: 0,
+        finishedAt: new Date("2021-01-20:20:00"),
+        totalTime: 0, //7
+        tasksGiven: 42,
+        tasksFinished: 18,
+        tasksFinishedPercent: 0, //43
         topic: 'GitHub'
     }
 ]
+//Calculating time taken and percentage
 for(let i = 1; i < table.length; i++){
     timeAndPercentage(table[i]);
     convertTime(table[i]);
 }
-console.log(table[0].tasksFinishedPercent);
-console.log(table[0].totalTime);
 
-console.log(table[2].tasksFinishedPercent);
-console.log(table[2].totalTime);
-
-console.log(table[3].tasksFinishedPercent);
-console.log(table[3].totalTime);
-
+//Construction of table
 constructTable(false);
 constructTableHeader(table[0]);
 writeObj(table[1]);
@@ -128,43 +117,24 @@ writeObj(table[6]);
 writeObj(table[7]);
 writeObj(table[8]);
 writeObj(table[9]);
-constructTableHeader(true);
-/**
- * 
-  <table style="width:100%">
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th> 
-    <th>Age</th>
-  </tr>
-  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <td>50</td>
-  </tr>
-  <tr>
-    <td>Eve</td>
-    <td>Jackson</td>
-    <td>94</td>
-  </tr>
-  <tr>
-    <td>John</td>
-    <td>Doe</td>
-    <td>80</td>
-  </tr>
-</table>
- */
+writeObj(table[10]);
+constructTable(true);
+normalizeHeader();
+normalize();
+normalizeSize();
 
 function convertTime(obj){
     obj.startedAt = obj.startedAt.getHours() + ":00";
     obj.finishedAt = obj.finishedAt.getHours() + ":00";
 }
+
 function timeAndPercentage(obj){
     let t = timeDifference(obj.startedAt, obj.finishedAt);
     obj.totalTime = (t * -1);
     let p = findPercentage(obj.tasksGiven, obj.tasksFinished);
     obj.tasksFinishedPercent = p;
 }
+
 function timeDifference(startedAt, finishedAt){
     let a = startedAt - finishedAt;
     return (a / 3600000);
@@ -176,6 +146,7 @@ function findPercentage(tasksGiven, tasksFinished){
     a = Math.floor(a + 0.5);
     return a;
 }
+
 function constructTable(end){
     if(end === true){
         document.write('</table>');
@@ -188,7 +159,6 @@ function constructTableHeader(header){
     document.write('<tr>');
     for(let i in header){
         document.write('<th>' + header[i] + '</th>');
-        console.log(header[i]);        
     }
     document.write('</tr>');
 }
@@ -196,7 +166,74 @@ function constructTableHeader(header){
 function writeObj(obj){
     document.write('<tr>');
     for(let i in obj){
-        document.write('<td>' + obj[i] + '</td>');
+        if(obj[i] === obj.totalTime){
+            document.write('<td style = background-color:' + getTimeColor(obj[i]) + ';>' + obj[i] + '</td>');
+        }else if(obj[i] === obj.tasksFinishedPercent){
+            document.write('<td style = background-color:' + getPercentageColor(obj[i]) + ';>' + obj[i] + '</td>');
+        }else{
+            document.write('<td style = background-color:lightgray;>' + obj[i] + '</td>');
+        }
     }
     document.write('</tr>');
+}
+
+function getPercentageColor(percent){
+    if(percent >= 80){
+        return 'green';
+    }else if(percent >= 60){
+        return 'yellow'
+    }else if(percent >= 40){
+        return 'orange'
+    }else{
+        return 'red';
+    }
+}
+
+function getTimeColor(time){
+    if(time >= 10){
+        return 'SlateBlue';
+    }else if(time >= 8){
+        return 'DodgerBlue'
+    }else if(time >= 5){
+        return 'Violet'
+    }else{
+        return 'Gray';
+    }
+}
+
+function setRowColor(color){
+    let rows = document.getElementsByTagName("tr");
+    for(let i = 0; i < rows.length; i++){
+        rows[i].style.backgroundColor = color;
+    }
+}
+
+
+function normalizeHeader(){
+    let rows = document.getElementsByTagName("tr");
+    rows[0].style.borderRadius = '20px';
+    rows[0].style.textAlign = 'center';
+    rows[0].style.color = 'white';
+    rows[0].style.backgroundColor = 'black';
+    rows[0].style.fontSize = '30px';
+    let headerRows = document.getElementsByTagName("th");
+    for(let i = 0; i < headerRows.length; i++){
+        headerRows[i].style.borderRadius = '10px';
+    }
+}
+
+function normalize(){
+    let rows = document.getElementsByTagName("tr");
+    for(let i = 1; i < rows.length; i++){
+        rows[i].style.textAlign = 'center';
+        rows[i].style.color = 'white';
+        rows[i].style.fontSize = '20px';
+    }
+}
+
+function normalizeSize(){
+    let rows = document.getElementsByTagName("td");
+    for(let i = 0; i < rows.length; i++){
+        rows[i].style.borderRadius = '10px';
+    }
 }
