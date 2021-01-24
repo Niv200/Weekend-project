@@ -1,4 +1,4 @@
-let table = [
+let data = [
     { //Headers
         startedAt: "Started At",
         finishedAt: "Finished At",
@@ -100,28 +100,27 @@ let table = [
     }
 ]
 //Calculating time taken and percentage
-for(let i = 1; i < table.length; i++){
-    timeAndPercentage(table[i]);
-    convertTime(table[i]);
+for(let i = 1; i < data.length; i++){
+    timeAndPercentage(data[i]);
+    convertTime(data[i]);
 }
+ 
+const table = document.createElement('table');
+table.appendChild(constructTableHeader(data[0]));
+table.appendChild(writeObj(data[1]));
+table.appendChild(writeObj(data[2]));
+table.appendChild(writeObj(data[3]));
+table.appendChild(writeObj(data[4]));
+table.appendChild(writeObj(data[5]));
+table.appendChild(writeObj(data[6]));
+table.appendChild(writeObj(data[7]));
+table.appendChild(writeObj(data[8]));
+table.appendChild(writeObj(data[9]));
+table.appendChild(writeObj(data[10]));
 
-//Construction of table
-constructTable(false);
-constructTableHeader(table[0]);
-writeObj(table[1]);
-writeObj(table[2]);
-writeObj(table[3]);
-writeObj(table[4]);
-writeObj(table[5]);
-writeObj(table[6]);
-writeObj(table[7]);
-writeObj(table[8]);
-writeObj(table[9]);
-writeObj(table[10]);
-constructTable(true);
-normalizeHeader();
-normalize();
-normalizeSize();
+document.body.appendChild(table);
+normalizeTable();
+
 
 function convertTime(obj){
     obj.startedAt = obj.startedAt.getHours() + ":00";
@@ -147,34 +146,37 @@ function findPercentage(tasksGiven, tasksFinished){
     return a;
 }
 
-function constructTable(end){
-    if(end === true){
-        document.write('</table>');
-    }else{
-        document.write('<table>');
-    }
-}
-
 function constructTableHeader(header){
-    document.write('<tr>');
+    let hdr = document.createElement('tr');
     for(let i in header){
-        document.write('<th>' + header[i] + '</th>');
+        let th = document.createElement('th');
+        th.textContent = header[i];
+        hdr.appendChild(th);
     }
-    document.write('</tr>');
+    return hdr;
 }
 
 function writeObj(obj){
-    document.write('<tr>');
+    let tr = document.createElement('tr');
     for(let i in obj){
         if(obj[i] === obj.totalTime){
-            document.write('<td style = background-color:' + getTimeColor(obj[i]) + ';>' + obj[i] + '</td>');
+            let child = document.createElement('td');
+            child.textContent = obj[i];
+            child.style = 'background-color: ' + getTimeColor(obj[i]);
+            tr.appendChild(child);
         }else if(obj[i] === obj.tasksFinishedPercent){
-            document.write('<td style = background-color:' + getPercentageColor(obj[i]) + ';>' + obj[i] + '</td>');
+            let child = document.createElement('td');
+            child.textContent = obj[i];
+            child.style = 'background-color: ' + getPercentageColor(obj[i]);
+            tr.appendChild(child);
         }else{
-            document.write('<td style = background-color:lightgray;>' + obj[i] + '</td>');
+            let child = document.createElement('td');
+            child.textContent = obj[i];
+            child.style = 'background-color: lightgrey';
+            tr.appendChild(child);
         }
     }
-    document.write('</tr>');
+    return tr;
 }
 
 function getPercentageColor(percent){
@@ -208,7 +210,6 @@ function setRowColor(color){
     }
 }
 
-
 function normalizeHeader(){
     let rows = document.getElementsByTagName("tr");
     rows[0].style.borderRadius = '20px';
@@ -236,4 +237,10 @@ function normalizeSize(){
     for(let i = 0; i < rows.length; i++){
         rows[i].style.borderRadius = '10px';
     }
+}
+
+function normalizeTable(){
+    normalizeSize();
+    normalizeHeader();
+    normalize();
 }
